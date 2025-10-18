@@ -57,9 +57,9 @@ static const int MAX_URI_LENGTH = 255;
 static constexpr uint64_t GB_BYTES{1000000000};
 
 /* Mainnet uidd explorer uri */
-static const QString UIDD_INFO_MAINNET = "<a href='https://uidd.info/%1/%2'>%2</a>";
+static const QString UIDD_INFO_MAINNET = "<a href='https://scan.uidd.org/%1/%2'>%2</a>";
 
 /* Testnet uidd explorer uri */
-static const QString UIDD_INFO_TESTNET = "<a href='https://testnet.uidd.info/%1/%2'>%2</a>";
+static const QString UIDD_INFO_TESTNET = "<a href='https://testnet.scan.uidd.org/%1/%2'>%2</a>";
 
 #endif // BITCOIN_QT_GUICONSTANTS_H
