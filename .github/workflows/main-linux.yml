@@ -56,7 +56,10 @@ jobs:
         sudo chmod -R 777 .
         cd depends 
         sudo make -j$(nproc)
-   
+       
+    - name: Verify GMP Library
+      run: ls -l depends/x86_64-pc-linux-gnu/lib/libgmp.a
+
     - name: Run Autogen
       run: ./autogen.sh
 
