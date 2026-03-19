@@ -41,6 +41,16 @@ jobs:
         sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-10 100
         gcc --version
 
+    # NEW STEP GOES HERE
+    - name: Downgrade Autoconf to 2.69
+      run: |
+        sudo apt-get install -y autoconf2.69
+        sudo update-alternatives --install /usr/bin/autoconf autoconf /usr/bin/autoconf2.69 100
+        sudo update-alternatives --install /usr/bin/autoreconf autoreconf /usr/bin/autoreconf2.69 100
+        sudo update-alternatives --install /usr/bin/autoheader autoheader /usr/bin/autoheader2.69 100
+        autoconf --version
+
+    # ... Workarounds, depends build, autogen, configure ...
     - name: Workaround for broken GMP download URL
       if: steps.depends-cache.outputs.cache-hit != 'true'
       run: |
