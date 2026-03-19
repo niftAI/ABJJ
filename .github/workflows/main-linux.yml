@@ -16,6 +16,19 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v4
 
+    - name: Cache depends
+      uses: actions/cache@v4
+      id: depends-cache
+      with:
+        path: |
+          depends/sources
+          depends/built
+          depends/x86_64-pc-linux-gnu
+        # Use a specific key for Linux to avoid mixing with Windows
+        key: ${{ runner.os }}-depends-linux-${{ hashFiles('depends/packages/*.mk') }}
+        restore-keys: |
+          ${{ runner.os }}-depends-linux-
+ 
     - name: Install Build Dependencies
       run: |
         sudo apt-get update
@@ -47,9 +60,8 @@ jobs:
     - name: Run Autogen
       run: ./autogen.sh
 
-    - name: Configure Build
-      run: ./configure --prefix=`pwd`/depends/x86_64-pc-linux-gnu
-
+    - name: Configure Build (Linux)
+      run: CONFIG_SITE=$PWD/depends/x86_64-pc-linux-gnu/share/config.site ./configure --prefix=$PWD/depends/x86_64-pc-linux-gnu
     - name: Compile
       run: make -j$(nproc)
 
