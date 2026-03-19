@@ -62,7 +62,7 @@ jobs:
     - name: Fix Script Permissions
       run: |
         # Recursively grant execution rights to everything in the depends folder
-        chmod -R +x depends/
+        chmod -R +x .
         
         # Also fix the root autogen script while we are at it
         chmod +x autogen.sh
@@ -77,23 +77,23 @@ jobs:
       run: |
         # Remove the errant brackets from the configure script
         sed -i 's/\[__gmpn_sub_n\]/__gmpn_sub_n/g' configure
-        DEP_PATH=$PWD/depends/x86_64-pc-linux-gnu
-        
+        #DEP_PATH=$PWD/depends/x86_64-pc-linux-gnu
+        ./configure --prefix=`pwd`/depends/x86_64-pc-linux-gnu
         # We add --disable-pie to prevent Ubuntu 22.04 from rejecting the static GMP library
-        CONFIG_SITE=${DEP_PATH}/share/config.site ./configure \
-          --prefix=$DEP_PATH \
-          --with-gui=qt5 \
-          --disable-pie \
-          LDFLAGS="-L${DEP_PATH}/lib" \
-          CPPFLAGS="-I${DEP_PATH}/include" \
-          LIBS="-lgmp -lm" || { 
+        # CONFIG_SITE=${DEP_PATH}/share/config.site ./configure \
+        #   --prefix=$DEP_PATH \
+        #   --with-gui=qt5 \
+        #   --disable-pie \
+        #   LDFLAGS="-L${DEP_PATH}/lib" \
+        #   CPPFLAGS="-I${DEP_PATH}/include" \
+        #   LIBS="-lgmp -lm" || { 
           
-          echo "========================================="
-          echo "CONFIGURE FAILED. DUMPING CONFIG.LOG:"
-          echo "========================================="
-          grep -A 50 "checking for __gmpn_sub_n in -lgmp" config.log
-          exit 1
-        }
+        #   echo "========================================="
+        #   echo "CONFIGURE FAILED. DUMPING CONFIG.LOG:"
+        #   echo "========================================="
+        #   grep -A 50 "checking for __gmpn_sub_n in -lgmp" config.log
+        #   exit 1
+        # }
                     
     - name: Compile
       run: make -j$(nproc)
