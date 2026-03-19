@@ -64,7 +64,18 @@ jobs:
       run: ./autogen.sh
 
     - name: Configure Build (Linux)
-      run: CONFIG_SITE=$PWD/depends/x86_64-pc-linux-gnu/share/config.site ./configure --prefix=$PWD/depends/x86_64-pc-linux-gnu
+      run: |
+        # Define the path to your depends output
+        DEP_PATH=$PWD/depends/x86_64-pc-linux-gnu
+        
+        # Manually point to the GMP headers and library
+        ./configure --prefix=$DEP_PATH \
+                    --with-gui=qt5 \
+                    LDFLAGS="-L${DEP_PATH}/lib" \
+                    CPPFLAGS="-I${DEP_PATH}/include" \
+                    LIBS="-lgmp" \
+                    CONFIG_SITE=${DEP_PATH}/share/config.site
+                    
     - name: Compile
       run: make -j$(nproc)
 
