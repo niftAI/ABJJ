@@ -47,6 +47,14 @@ jobs:
         mkdir -p depends/sources
         curl -L "https://ftp.gnu.org/gnu/gmp/gmp-6.1.2.tar.xz" -o depends/sources/gmp-6.1.2.tar.xz
 
+    - name: Fix Script Permissions
+      run: |
+        # Recursively grant execution rights to everything in the depends folder
+        chmod -R +x depends/
+        
+        # Also fix the root autogen script while we are at it
+        chmod +x autogen.sh
+
     - name: Build Depends
       run: make -C depends HOST=x86_64-pc-linux-gnu -j$(nproc)
 
