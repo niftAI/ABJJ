@@ -30,6 +30,18 @@ jobs:
         mkdir -p depends/sources
         curl -L "https://ftp.gnu.org/gnu/gmp/gmp-6.1.2.tar.xz" -o depends/sources/gmp-6.1.2.tar.xz
       
+    - name: Install and Set GCC 9 as Default
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y gcc-9 g++-9
+        
+        # Set GCC 9 as the highest priority alternative
+        sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-9 100
+        sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-9 100
+        
+        # Verify the active version
+        gcc --version
+        g++ --version
     - name: Install Core & Crypto Dependencies
       run: |
         cd depends 
