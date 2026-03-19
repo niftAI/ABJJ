@@ -73,6 +73,8 @@ jobs:
 
     - name: Configure Build (Linux)
       run: |
+        # Remove the errant brackets from the configure script
+        sed -i 's/\[__gmpn_sub_n\]/__gmpn_sub_n/g' configure
         DEP_PATH=$PWD/depends/x86_64-pc-linux-gnu
         
         # We add --disable-pie to prevent Ubuntu 22.04 from rejecting the static GMP library
