@@ -36,11 +36,11 @@ jobs:
         sudo apt-get update
         sudo apt-get install -y build-essential libtool autotools-dev automake pkg-config bsdmainutils python3 libgmp-dev
         
-    - name: Install and Set GCC 10
+    - name: Install and Set GCC 9
       run: |
-        sudo apt-get install -y gcc-10 g++-10
-        sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-10 100
-        sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-10 100
+        sudo apt-get install -y gcc-9 g++-9
+        sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-9 100
+        sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-9 100
         gcc --version
 
     # NEW STEP GOES HERE
@@ -75,38 +75,21 @@ jobs:
 
     - name: Configure Build (Linux)
       run: |
-        # Remove the errant brackets from the configure script
         sed -i 's/\[__gmpn_sub_n\]/__gmpn_sub_n/g' configure
-        #DEP_PATH=$PWD/depends/x86_64-pc-linux-gnu
         ./configure --prefix=`pwd`/depends/x86_64-pc-linux-gnu
-        # We add --disable-pie to prevent Ubuntu 22.04 from rejecting the static GMP library
-        # CONFIG_SITE=${DEP_PATH}/share/config.site ./configure \
-        #   --prefix=$DEP_PATH \
-        #   --with-gui=qt5 \
-        #   --disable-pie \
-        #   LDFLAGS="-L${DEP_PATH}/lib" \
-        #   CPPFLAGS="-I${DEP_PATH}/include" \
-        #   LIBS="-lgmp -lm" || { 
-          
-        #   echo "========================================="
-        #   echo "CONFIGURE FAILED. DUMPING CONFIG.LOG:"
-        #   echo "========================================="
-        #   grep -A 50 "checking for __gmpn_sub_n in -lgmp" config.log
-        #   exit 1
-        # }
-                    
+                            
     - name: Compile
       run: make -j$(nproc)
 
-    - name: Run Tests (Optional)
-      run: make check || true
+    #- name: Run Tests (Optional)
+    #  run: make check || true
 
     - name: Upload Artifacts
       uses: actions/upload-artifact@v4
       with:
         name: abjj-ubuntu-22.04-binaries
         path: |
-          src/abjjd
-          src/abjj-cli
-          src/abjj-tx
-          src/qt/abjj-qt
+          src/uiddd
+          src/uidd-cli
+          src/uidd-tx
+          src/qt/uidd-qt
