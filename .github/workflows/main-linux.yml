@@ -1,0 +1,50 @@
+name: abjj linux
+
+on:
+  push:
+    branches: [ master, main ]
+  pull_request:
+    branches: [ master, main ]
+  workflow_dispatch: 
+
+jobs:
+  build-ubuntu:
+    name: Build on Ubuntu 20.04
+    runs-on: ubuntu-20.04
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    - name: Install Build Dependencies
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y build-essential libtool autotools-dev automake pkg-config bsdmainutils python3
+        
+    - name: Install Core & Crypto Dependencies
+      run: |
+        cd depends 
+        sudo chmod -R 777 .
+        sudo make -j$(nproc)
+   
+    - name: Run Autogen
+      run: ./autogen.sh
+
+    - name: Configure Build
+      run: ./configure --prefix=`pwd`/depends/x86_64-pc-linux-gnu
+
+    - name: Compile
+      run: make -j$(nproc)
+
+    - name: Run Tests (Optional)
+      run: make check
+
+    - name: Upload Artifacts
+      uses: actions/upload-artifact@v4
+      with:
+        name: bitcoin2-ubuntu-20.04-binaries
+        path: |
+          src/uiddd
+          src/uidd-cli
+          src/uidd-tx
+          src/qt/uidd-qt
