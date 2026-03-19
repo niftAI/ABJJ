@@ -57,7 +57,7 @@ jobs:
       # -C depends tells make to run inside the depends folder without needing cd
       # HOST is explicitly set for Linux
       run: sudo chmod -R 777 .
-        make -C depends HOST=x86_64-pc-linux-gnu -j$(nproc)
+       make -C depends HOST=x86_64-pc-linux-gnu -j$(nproc)
         
     - name: Verify GMP Library
       run: ls -l depends/x86_64-pc-linux-gnu/lib/libgmp.a
