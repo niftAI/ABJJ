@@ -88,6 +88,10 @@ jobs:
         ./configure --prefix=`pwd`/depends/x86_64-w64-mingw32
 
 
+    - name: Patch gmtime_r for Windows cross-compilation
+      run: |
+          sed -i 's/gmtime_r(&time_val, &ts);/#ifdef _WIN32\n        gmtime_s(\&ts, \&time_val);\n#else\n        gmtime_r(\&time_val, \&ts);\n#endif/g' util/time.cpp
+
     - name: Compile
       run: make -j$(nproc)
 
