@@ -46,12 +46,7 @@ bool UiddDGP::checkLimitSchedule(const std::vector<uint32_t>& defaultData, const
 }
 
 dev::eth::EVMSchedule UiddDGP::getGasSchedule(int blockHeight){
-    clear();
-    dataSchedule = scheduleDataForBlockNumber(blockHeight);
     dev::eth::EVMSchedule schedule = globalSealEngine->chainParams().scheduleForBlockNumber(blockHeight);
-    if(initStorages(GasScheduleDGP, blockHeight, ParseHex("26fadbe2"))){
-        schedule = createEVMSchedule(schedule, blockHeight);
-    }
     return schedule;
 }
 
@@ -70,30 +65,30 @@ uint64_t UiddDGP::getUint64FromDGP(unsigned int blockHeight, const dev::Address&
 uint32_t UiddDGP::getBlockSize(unsigned int blockHeight){
     clear();
     uint32_t result = DEFAULT_BLOCK_SIZE_DGP;
-    uint32_t blockSize = getUint64FromDGP(blockHeight, BlockSizeDGP, ParseHex("92ac3c62"));
+    /* uint32_t blockSize = getUint64FromDGP(blockHeight, BlockSizeDGP, ParseHex("92ac3c62"));
     if(blockSize <= MAX_BLOCK_SIZE_DGP && blockSize >= MIN_BLOCK_SIZE_DGP){
         result = blockSize;
-    }
+    } */
     return result;
 }
 
 uint64_t UiddDGP::getMinGasPrice(unsigned int blockHeight){
     clear();
     uint64_t result = DEFAULT_MIN_GAS_PRICE_DGP;
-    uint64_t minGasPrice = getUint64FromDGP(blockHeight, GasPriceDGP, ParseHex("3fb58819"));
+    /* uint64_t minGasPrice = getUint64FromDGP(blockHeight, GasPriceDGP, ParseHex("3fb58819"));
     if(minGasPrice <= MAX_MIN_GAS_PRICE_DGP && minGasPrice >= MIN_MIN_GAS_PRICE_DGP){
         result = minGasPrice;
-    }
+    } */
     return result;
 }
 
 uint64_t UiddDGP::getBlockGasLimit(unsigned int blockHeight){
     clear();
     uint64_t result = DEFAULT_BLOCK_GAS_LIMIT_DGP;
-    uint64_t blockGasLimit = getUint64FromDGP(blockHeight, BlockGasLimitDGP, ParseHex("2cc8377d"));
+    /* uint64_t blockGasLimit = getUint64FromDGP(blockHeight, BlockGasLimitDGP, ParseHex("2cc8377d"));
     if(blockGasLimit <= MAX_BLOCK_GAS_LIMIT_DGP && blockGasLimit >= MIN_BLOCK_GAS_LIMIT_DGP){
         result = blockGasLimit;
-    }
+    } */
     return result;
 }
 
