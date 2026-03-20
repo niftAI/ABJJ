@@ -40,11 +40,6 @@ jobs:
         sudo apt install g++-mingw-w64-x86-64
         # sudo update-alternatives --config x86_64-w64-mingw32-g++ # Set the default mingw32 g++ compiler option to posix.
         
-    - name: Set MinGW-w64 compiler to POSIX
-      run: |
-          sudo update-alternatives --set x86_64-w64-mingw32-gcc /usr/bin/x86_64-w64-mingw32-gcc-posix
-          sudo update-alternatives --set x86_64-w64-mingw32-g++ /usr/bin/x86_64-w64-mingw32-g++-posix
-
     - name: Workaround for broken GMP download URL
       run: |
         mkdir -p depends/sources
@@ -71,6 +66,11 @@ jobs:
         sudo update-alternatives --install /usr/bin/autoreconf autoreconf /usr/bin/autoreconf2.69 100
         sudo update-alternatives --install /usr/bin/autoheader autoheader /usr/bin/autoheader2.69 100
         autoconf --version
+
+    - name: Set MinGW-w64 compiler to POSIX
+      run: |
+          sudo update-alternatives --set x86_64-w64-mingw32-gcc /usr/bin/x86_64-w64-mingw32-gcc-posix
+          sudo update-alternatives --set x86_64-w64-mingw32-g++ /usr/bin/x86_64-w64-mingw32-g++-posix
 
     - name: Install Core & Crypto Dependencies
       run: |
