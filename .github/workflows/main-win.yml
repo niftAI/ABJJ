@@ -48,11 +48,11 @@ jobs:
     - name: Install and Set GCC 9 as Default
       run: |
         sudo apt-get update
-        sudo apt-get install -y gcc-8 g++-8
+        sudo apt-get install -y gcc-9 g++-9
         
-        # Set GCC 8 as the highest priority alternative
-        sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-8 100
-        sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-8 100
+        # Set GCC 9 as the highest priority alternative
+        sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-9 100
+        sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-9 100
         
         # Verify the active version
         gcc --version
@@ -90,7 +90,7 @@ jobs:
 
     - name: Patch gmtime_r for Windows cross-compilation
       run: |
-          sed -i 's/gmtime_r(&time_val, &ts);/#ifdef _WIN32\n        gmtime_s(\&ts, \&time_val);\n#else\n        gmtime_r(\&time_val, \&ts);\n#endif/g' util/time.cpp
+          sed -i 's/gmtime_r(&time_val, &ts);/#ifdef _WIN32\n        gmtime_s(\&ts, \&time_val);\n#else\n        gmtime_r(\&time_val, \&ts);\n#endif/g' src/util/time.cpp
 
     - name: Compile
       run: make -j$(nproc)
