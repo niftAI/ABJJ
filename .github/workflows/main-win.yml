@@ -55,9 +55,19 @@ jobs:
         # Verify the active version
         gcc --version
         g++ --version
+     
+    # NEW STEP GOES HERE
+    - name: Downgrade Autoconf to 2.69
+      run: |
+        sudo apt-get install -y autoconf2.69
+        sudo update-alternatives --install /usr/bin/autoconf autoconf /usr/bin/autoconf2.69 100
+        sudo update-alternatives --install /usr/bin/autoreconf autoreconf /usr/bin/autoreconf2.69 100
+        sudo update-alternatives --install /usr/bin/autoheader autoheader /usr/bin/autoheader2.69 100
+        autoconf --version
+
     - name: Install Core & Crypto Dependencies
       run: |
-        sudo chmod -R 777 .
+        sudo chmod -R +x .
         cd depends 
         make HOST=x86_64-w64-mingw32 -j$(nproc)
    
@@ -65,7 +75,10 @@ jobs:
       run: ./autogen.sh
 
     - name: Configure Build
-      run: ./configure --prefix=`pwd`/depends/x86_64-w64-mingw32
+      run: |
+        sed -i 's/\[__gmpn_sub_n\]/__gmpn_sub_n/g' configure
+        ./configure --prefix=`pwd`/depends/x86_64-w64-mingw32
+
 
     - name: Compile
       run: make -j$(nproc)
