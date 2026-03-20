@@ -70,7 +70,7 @@ jobs:
     - name: Set MinGW-w64 compiler to POSIX
       run: |
           sudo apt install g++-mingw-w64-x86-64
-          sudo update-alternatives --set x86_64-w64-mingw32-gcc /usr/bin/x86_64-w64-mingw32-gcc-posix
+          # sudo update-alternatives --set x86_64-w64-mingw32-gcc /usr/bin/x86_64-w64-mingw32-gcc-posix
           sudo update-alternatives --set x86_64-w64-mingw32-g++ /usr/bin/x86_64-w64-mingw32-g++-posix
 
     - name: Install Core & Crypto Dependencies
