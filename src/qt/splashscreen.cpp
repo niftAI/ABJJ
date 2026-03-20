@@ -33,7 +33,7 @@ SplashScreen::SplashScreen(interfaces::Node& node, Qt::WindowFlags f, const Netw
     // set sizes
     int logoSize                = 50;
     int logoImageSize           = logoSize - 13;
-    int packageTextHeight       = 30;
+    int packageTextHeight       = 36;
     int versionTextHeight       = 20;
     int statusHeight            = 30;
     int titleAddTextHeight      = 12;
